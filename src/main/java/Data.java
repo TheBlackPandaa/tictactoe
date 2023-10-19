@@ -17,70 +17,62 @@ public class Data {
         }
         return emptyBoard;
     }
-
-    public boolean victoryCondition3X3(String[][] boardState) {
+    public boolean victoryConditionCheck(String[][] boardState) {
+        int boardSize = boardState.length;
+        int required = (boardSize == 3) ? 3 : 5;
         boolean victory = false;
-        for(int i=0;i<3;i++){
-            for(int j=0;j<3;j++) {
+        for(int i=0;i<boardSize;i++){
+            for(int j=0;j<boardSize;j++){
                 String figureCheck = boardState[i][j];
                 if (figureCheck.equals("X")||figureCheck.equals("O")) {
-                    if(i==0 && j==0) {
-                        if (boardState[i + 1][j + 1].equals(figureCheck) && boardState[i + 2][j + 2].equals(figureCheck)) {
-                            victory = true;
+                    if(i<=boardSize-required && j<=boardSize-required) {
+                        for(int k=1;k<required;k++){
+                            if(boardState[i + k][j + k].equals(figureCheck)){
+                                if(k == required-1){
+                                    victory = true;
+                                }
+                            }else{
+                                break;
+                            }
                         }
                     }
-                    if(j==0){
-                            if(boardState[i][j + 1].equals(figureCheck) && boardState[i][j + 2].equals(figureCheck)) {
-                            victory = true;
+                    if(j<=boardSize-required){
+                        for(int k=1;k<required;k++){
+                            if(boardState[i][j + k].equals(figureCheck)){
+                                if(k == required-1){
+                                    victory = true;
+                                }
+                            }else{
+                                break;
+                            }
                         }
                     }
-                    if (i==0) {
-                        if (boardState[i + 1][j].equals(figureCheck) && boardState[i + 2][j].equals(figureCheck)) {
-                            victory = true;
+                    if (i<=boardSize-required) {
+                        for(int k=1;k<required;k++){
+                            if(boardState[i + k][j].equals(figureCheck)){
+                                if(k == required-1){
+                                    victory = true;
+                                }
+                            }else{
+                                break;
+                            }
                         }
                     }
-                    if(i == 2 && j == 0) {
-                        if (boardState[i - 1][j + 1].equals(figureCheck) && boardState[i - 2][j + 2].equals(figureCheck)) {
-                            victory = true;
+                    if(i >= required - 1 && j <= boardSize-required ) {
+                        for(int k=1;k<required;k++){
+                            if(boardState[i - k][j + k].equals(figureCheck)){
+                                if(k == required-1){
+                                    victory = true;
+                                }
+                            }else{
+                                break;
+                            }
                         }
                     }
                 }
+                if(victory) break;
             }
-        }
-        return victory;
-    }
-    public boolean victoryCondition10X10(String[][] boardState) {
-        boolean victory = false;
-        for(int i=0;i<10;i++){
-            for(int j=0;j<10;j++) {
-                String figureCheck = boardState[i][j];
-                if (figureCheck.equals("X")||figureCheck.equals("O")) {
-                    if(i<5 && j<5) {
-                        if (boardState[i + 1][j + 1].equals(figureCheck) && boardState[i + 2][j + 2].equals(figureCheck)&& boardState[i + 3][j + 3].equals(figureCheck)&& boardState[i + 4][j + 4].equals(figureCheck)) {
-                            victory = true;
-                            break;
-                        }
-                    }
-                    if(j<5){
-                        if(boardState[i][j + 1].equals(figureCheck) && boardState[i][j + 2].equals(figureCheck) && boardState[i][j + 3].equals(figureCheck) && boardState[i][j + 4].equals(figureCheck)) {
-                            victory = true;
-                        }
-                        break;
-                    }
-                    if (i<5) {
-                        if (boardState[i + 1][j].equals(figureCheck) && boardState[i + 2][j].equals(figureCheck) && boardState[i + 3][j].equals(figureCheck) && boardState[i + 4][j].equals(figureCheck)) {
-                            victory = true;
-                        }
-                        break;
-                    }
-                    if(i > 4 && j < 6 ) {
-                        if (boardState[i - 1][j + 1].equals(figureCheck) && boardState[i - 2][j + 2].equals(figureCheck) && boardState[i - 3][j + 3].equals(figureCheck) && boardState[i - 4][j + 4].equals(figureCheck)) {
-                            victory = true;
-                        }
-                        break;
-                    }
-                }
-            }
+            if(victory) break;
         }
         return victory;
     }

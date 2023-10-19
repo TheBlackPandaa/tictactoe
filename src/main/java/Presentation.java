@@ -2,49 +2,52 @@ import java.util.Scanner;
 
 public class Presentation
 {
-    public int boardSize(){
-        System.out.println("Choose between 3 or 10");
-        Scanner sc = new Scanner(System.in);
-        return sc.nextInt();
+    public int getBoardSize(){
+        int boardSize = 0;
+        while(boardSize != 3 && boardSize != 10) {
+            System.out.println("Choose between 3 or 10");
+            Scanner sc = new Scanner(System.in);
+            boardSize = sc.nextInt();
+        }
+        return boardSize;
 
+    }
+    public void drawBoard(String[][] figures, int boardSize){
+        for(int i=0;i<boardSize;i++){
+            System.out.print("|");
+            for(int j=0;j<boardSize;j++){
+                System.out.print(figures[i][j]+"|");
+            }
+            System.out.print('\n');
+        }
     }
     public String playerSelection(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Select starting figure : ");
         return sc.next();
     }
-    public void board3X3(String[][] figures){
-        System.out.println("|"+figures[0][0]+"|"+figures[1][0]+"|"+figures[2][0]+"|");
-        System.out.println("|"+figures[0][1]+"|"+figures[1][1]+"|"+figures[2][1]+"|");
-        System.out.println("|"+figures[0][2]+"|"+figures[1][2]+"|"+figures[2][2]+"|");
-    }
-    public void board10X10(String[][] figures, int boardSize){
-        for(int i=0;i<boardSize;i++) {
-            System.out.println("|" + figures[0][i] + "|" + figures[1][i] + "|" + figures[2][i] + "|" + figures[3][i] + "|" + figures[4][i] + "|" + figures[5][i] + "|" + figures[6][i] + "|" + figures[7][i] + "|" + figures[8][i] + "|" + figures[9][i] + "|");
-        }
-    }
-    public void move(String[][]figures, int playerIterator,String startingPlayer){
+    public void move(String[][]figures, int playerIterator,String startingPlayerSymbol) throws InvalidMoveException{
         String[][] board;
         board = figures;
-             if(playerIterator % 2 == 0){
-                 Scanner sc = new Scanner(System.in);
-                 System.out.println("Player 1 move: ");
-                 int column = sc.nextInt();
-                 int row = sc.nextInt();
-                 board[column][row] = startingPlayer.toUpperCase();
-             }else{
-                 Scanner sc = new Scanner(System.in);
-                 System.out.println("Player 2 move: ");
-                 int column = sc.nextInt();
-                 int row = sc.nextInt();
-                 String secondPlayer = null;
-                 if(startingPlayer.equals("O") || startingPlayer.equals("o")){
-                     secondPlayer = "X";
-                 }else if(startingPlayer.equals("X") || startingPlayer.equals("x")){
-                     secondPlayer = "O";
-                 }
-                 board[column][row] = secondPlayer;
-             }
+        String currentPlayerSymbol = startingPlayerSymbol.toUpperCase();
+        if(playerIterator % 2 != 0) {
+            if (currentPlayerSymbol.equals("O")) {
+                currentPlayerSymbol = "X";
+            } else if (currentPlayerSymbol.equals("X")) {
+                currentPlayerSymbol = "O";
+            }
+        }
+        System.out.println("Player "+currentPlayerSymbol+" move!");
+        Scanner sc = new Scanner(System.in);
+        int column = sc.nextInt();
+        int row = sc.nextInt();
+        if(column < 0 || column > figures.length-1 || row <0 || row >figures.length-1){
+            throw new InvalidMoveException("value out of boundaries");
+        }
+        if(!board[column][row].equals(" ")){
+            throw new InvalidMoveException("position is already occupied");
+        }
+        board[column][row] = currentPlayerSymbol;
     }
     public void victoryMessage(int playerIterator,String figure){
         if(playerIterator % 2 ==0){

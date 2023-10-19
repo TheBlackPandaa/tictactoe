@@ -2,6 +2,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("tic tac toe tests")
 public class tictactoeTestSuite {
 @Nested
@@ -24,7 +29,7 @@ class TestsForO {
         data.setBoardState(board);
         boolean vc;
         //when
-        vc = data.victoryCondition3X3(data.getBoardState());
+        vc = data.victoryConditionCheck(data.getBoardState());
         //
         Assertions.assertTrue(vc);
     }
@@ -46,7 +51,7 @@ class TestsForO {
         data.setBoardState(board);
         boolean vc;
         //when
-        vc = data.victoryCondition3X3(data.getBoardState());
+        vc = data.victoryConditionCheck(data.getBoardState());
         //
         Assertions.assertTrue(vc);
     }
@@ -68,7 +73,7 @@ class TestsForO {
         data.setBoardState(board);
         boolean vc;
         //when
-        vc = data.victoryCondition3X3(data.getBoardState());
+        vc = data.victoryConditionCheck(data.getBoardState());
         //
         Assertions.assertTrue(vc);
     }
@@ -84,13 +89,13 @@ class TestsForO {
                 board[i][j] = " ";
             }
         }
-        board[0][0] = "O";
-        board[0][1] = "O";
+        board[2][0] = "O";
+        board[1][1] = "O";
         board[0][2] = "O";
         data.setBoardState(board);
         boolean vc;
         //when
-        vc = data.victoryCondition3X3(data.getBoardState());
+        vc = data.victoryConditionCheck(data.getBoardState());
         //
         Assertions.assertTrue(vc);
     }
@@ -115,7 +120,7 @@ class TestsForO {
             data.setBoardState(board);
             boolean vc;
             //when
-            vc = data.victoryCondition3X3(data.getBoardState());
+            vc = data.victoryConditionCheck(data.getBoardState());
             //
             Assertions.assertTrue(vc);
         }
@@ -137,7 +142,7 @@ class TestsForO {
             data.setBoardState(board);
             boolean vc;
             //when
-            vc = data.victoryCondition3X3(data.getBoardState());
+            vc = data.victoryConditionCheck(data.getBoardState());
             //
             Assertions.assertTrue(vc);
         }
@@ -159,7 +164,7 @@ class TestsForO {
             data.setBoardState(board);
             boolean vc;
             //when
-            vc = data.victoryCondition3X3(data.getBoardState());
+            vc = data.victoryConditionCheck(data.getBoardState());
             //
             Assertions.assertTrue(vc);
         }
@@ -175,16 +180,55 @@ class TestsForO {
                     board[i][j] = " ";
                 }
             }
-            board[0][0] = "X";
-            board[0][1] = "X";
+            board[2][0] = "X";
+            board[1][1] = "X";
             board[0][2] = "X";
             data.setBoardState(board);
             boolean vc;
             //when
-            vc = data.victoryCondition3X3(data.getBoardState());
+            vc = data.victoryConditionCheck(data.getBoardState());
             //
             Assertions.assertTrue(vc);
         }
 
+    }
+    @Nested
+    @DisplayName("InputTests")
+    class inputTests{
+        @Test
+        @DisplayName("Input ot of boundaries test")
+            void inputOutOfBoundariesTest(){
+                //given
+                Presentation presentation = new Presentation();
+                String[][] board = new String[10][10];
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        board[i][j] = " ";
+                    }
+                }
+                String input ="0 14";
+                InputStream is = new ByteArrayInputStream(input.getBytes());
+                System.setIn(is);
+                //When&Then
+                assertThrows(InvalidMoveException.class, () ->presentation.move(board,0,"X"));
+            }
+        @Test
+        @DisplayName("Occupied Field test")
+        void occupiedFieldTest(){
+            //given
+            Presentation presentation = new Presentation();
+            String[][] board = new String[10][10];
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    board[i][j] = " ";
+                }
+            }
+            board[0][9] = "X";
+            String input ="0 9";
+            InputStream is = new ByteArrayInputStream(input.getBytes());
+            System.setIn(is);
+            //When&Then
+            assertThrows(InvalidMoveException.class, () ->presentation.move(board,1,"X"));
+        }
     }
 }
