@@ -22,9 +22,27 @@ public class Presentation
         }
     }
     public String playerSelection(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Select starting figure : ");
-        return sc.next();
+        String userInput = " ";
+        System.out.println("You can choose starting figure buy inserting x | X | o | O");
+        while(!userInput.equals("x") && !userInput.equals("X") && !userInput.equals("o") && !userInput.equals("O") ) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Select starting figure : ");
+            userInput = sc.next();
+        }
+        return userInput;
+    }
+    public boolean gameMode(){
+        int userInput = 0;
+        boolean answer = false;
+        while(userInput != 1 && userInput !=2) {
+            System.out.println("Do you have second player ?(1 if yes/2 if no)");
+            Scanner sc = new Scanner(System.in);
+            userInput = sc.nextInt();
+            if (userInput == 1) {
+                answer = true;
+            }
+        }
+        return answer;
     }
     public void move(String[][]figures, int playerIterator,String startingPlayerSymbol) throws InvalidMoveException{
         String[][] board;

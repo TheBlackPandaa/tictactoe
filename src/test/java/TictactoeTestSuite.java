@@ -8,21 +8,26 @@ import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("tic tac toe tests")
-public class tictactoeTestSuite {
+public class TictactoeTestSuite {
 @Nested
 @DisplayName("Tests for O wins")
 class TestsForO {
-    @Test
-    @DisplayName("Three O in a row")
-    void threeOInARow() {
-        //given
-        Data data = new Data();
+
+    private static String[][] emptyBoard(){
         String[][] board = new String[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = " ";
             }
         }
+        return board;
+    }
+    @Test
+    @DisplayName("Three O in a row")
+    void threeOInARow() {
+        //given
+        Data data = new Data();
+        String[][] board = emptyBoard();
         board[0][0] = "O";
         board[0][1] = "O";
         board[0][2] = "O";

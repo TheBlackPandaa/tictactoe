@@ -8,15 +8,16 @@ public class Main {
         boolean victoryCondition = false;
         int playerIterator = 0;
         presentation.drawBoard(data.getBoardState(),boardSize);
+
         while (!victoryCondition && playerIterator < boardSize*boardSize) {
             try{
                 presentation.move(data.getBoardState(), playerIterator, figure);
                 presentation.drawBoard(data.getBoardState(),boardSize);
                 victoryCondition = data.victoryConditionCheck(data.getBoardState());
-                playerIterator++;
             }catch (InvalidMoveException e){
                 System.out.println(e.getMessage());
             }
+            playerIterator++;
         }
         if(victoryCondition){
             presentation.victoryMessage(playerIterator,figure);
