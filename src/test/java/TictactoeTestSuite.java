@@ -215,7 +215,7 @@ class TestsForO {
                 InputStream is = new ByteArrayInputStream(input.getBytes());
                 System.setIn(is);
                 //When&Then
-                assertThrows(InvalidMoveException.class, () ->presentation.move(board,0,"X"));
+                assertThrows(InvalidMoveException.class, () ->presentation.move(board,0,"X",false,false));
             }
         @Test
         @DisplayName("Occupied Field test")
@@ -233,7 +233,7 @@ class TestsForO {
             InputStream is = new ByteArrayInputStream(input.getBytes());
             System.setIn(is);
             //When&Then
-            assertThrows(InvalidMoveException.class, () ->presentation.move(board,1,"X"));
+            assertThrows(InvalidMoveException.class, () ->presentation.move(board,1,"X",false,false));
         }
     }
 }
